@@ -1,5 +1,5 @@
 # hot-desk-sm-fe
-Work in progress.
+Work in progress. Needs a whole lot of refactoring.
 
 # Specs
 
