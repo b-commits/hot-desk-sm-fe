@@ -32,6 +32,9 @@ export function Header() {
             </Typography>
           </IconButton>
         </Link>
+        <a href="https://hotdesk-api.azurewebsites.net/swagger/index.html">
+          Swagger doc
+        </a>
       </Toolbar>
     </AppBar>
   );
