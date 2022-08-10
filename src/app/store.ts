@@ -1,9 +1,7 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import deskReducer from '../features/desk/redux/deskSlice';
-import {
-  default as locationReducer,
-  default as reservationReducer,
-} from '../features/desk/redux/locationSlice';
+import locationReducer from '../features/desk/redux/locationSlice';
+import reservationReducer from '../features/desk/redux/reservationSlice';
 
 export const store = configureStore({
   reducer: {

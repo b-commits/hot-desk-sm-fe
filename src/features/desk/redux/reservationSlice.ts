@@ -36,6 +36,6 @@ export const reservationSlice = createSlice({
 export const { addReservation } = reservationSlice.actions;
 
 export const selectReservations = (state: RootState) =>
-  state.reservation.locations;
+  state.reservation.reservations;
 
 export default reservationSlice.reducer;
