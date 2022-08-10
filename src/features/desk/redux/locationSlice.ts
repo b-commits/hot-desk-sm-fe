@@ -1,5 +1,10 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  ActionReducerMapBuilder,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import { RootState } from '../../../app/store';
+import { getLocations } from '../api/deskApi';
 import { Location } from '../defintions/types';
 
 export const BASE_SLICE_NAME: string = 'location';
@@ -24,6 +29,14 @@ export const locationSlice = createSlice({
     addLocation: (state: LocationState, action: PayloadAction<Location>) => {
       state.locations.push(action.payload);
     },
+  },
+  extraReducers: (builder: ActionReducerMapBuilder<LocationState>) => {
+    builder.addCase(
+      getLocations.fulfilled,
+      (state: LocationState, action: PayloadAction<Location[]>) => {
+        state.locations = action.payload;
+      }
+    );
   },
 });
 

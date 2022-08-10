@@ -7,16 +7,23 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-const ConfirmationPopup = () => {
+interface Props {
+  id: string;
+  name?: string;
+}
+
+export const ConfirmationPopup = ({ id, name }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const handleClickOpen: () => void = () => {
     setOpen(true);
   };
 
-  const handleDelete: () => void = () => {};
+  const handleDelete: () => void = () => {
+    // dispatch(deleteLocation(id));
+  };
 
   const handleClose: () => void = () => {
     setOpen(false);
@@ -37,7 +44,7 @@ const ConfirmationPopup = () => {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{`Are you sure you want to delete: [LOCATION_NAME]?`}</DialogTitle>
+        <DialogTitle>{`Are you sure you want to delete ${name} [${id}]?`}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             Please remember that all changes are permanent. You will not be able
@@ -52,5 +59,3 @@ const ConfirmationPopup = () => {
     </>
   );
 };
-
-export default ConfirmationPopup;

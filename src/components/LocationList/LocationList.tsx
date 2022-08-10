@@ -1,44 +1,21 @@
 /** @jsxImportSource @emotion/react */
-import TextField from '@mui/material/TextField';
-import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
+import Paper from '@mui/material/Paper';
 import TableRow from '@mui/material/TableRow';
-import {
-  tableWrapper,
-  searchBar,
-  tableHeader,
-  tableWrapperLocation,
-} from './Desks.module.style';
-import { Button, Grid } from '@mui/material';
-import { LocationForm } from './LocationForm';
-import ConfirmationPopup from './ConfirmationPopup';
-
-const mockLocations = [
-  {
-    locationId: 1,
-    city: 'Toronto',
-  },
-  {
-    locationId: 2,
-    city: 'Calgary',
-  },
-  {
-    locationId: 3,
-    city: 'Vancouver',
-  },
-  {
-    locationId: 4,
-    city: 'Ottawa',
-  },
-];
+import TableContainer from '@mui/material/TableContainer';
+import TableCell from '@mui/material/TableCell';
+import { tableHeader, tableWrapperLocation } from '../Desks.module.style';
+import { LocationForm } from '../LocationForm';
+import { ConfirmationPopup } from '../ConfirmationPopup';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { selectLocations } from '../../features/desk/redux/locationSlice';
+import { getLocations } from '../../features/desk/api/deskApi';
 
 interface Column {
-  id: 'locationId' | 'city';
+  id: 'id' | 'city';
   label: string;
   minWidth?: number;
   align?: 'right';
@@ -46,11 +23,18 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: 'locationId', label: 'Location ID' },
+  { id: 'id', label: 'Location ID' },
   { id: 'city', label: 'City' },
 ];
 
 export function LocationList() {
+  const dispatch = useAppDispatch();
+  const locations = useAppSelector(selectLocations);
+
+  useEffect(() => {
+    dispatch(getLocations());
+  }, []);
+
   return (
     <Paper css={tableWrapperLocation}>
       <TableContainer>
@@ -71,14 +55,9 @@ export function LocationList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {mockLocations.map((location) => {
+            {locations.map((location) => {
               return (
-                <TableRow
-                  hover
-                  role="checkbox"
-                  tabIndex={-1}
-                  key={location.locationId}
-                >
+                <TableRow hover role="checkbox" tabIndex={-1} key={location.id}>
                   {columns.map((column) => {
                     return (
                       <TableCell key={column.id} align={column.align}>
@@ -87,7 +66,7 @@ export function LocationList() {
                     );
                   })}
                   <TableCell>
-                    <ConfirmationPopup />
+                    <ConfirmationPopup id={location.id} name={location.city} />
                   </TableCell>
                 </TableRow>
               );

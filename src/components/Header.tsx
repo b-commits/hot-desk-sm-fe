@@ -32,8 +32,18 @@ export function Header() {
             </Typography>
           </IconButton>
         </Link>
-        <a href="https://hotdesk-api.azurewebsites.net/swagger/index.html">
-          Swagger doc
+        <a
+          href="https://hotdesk-api.azurewebsites.net/swagger/index.html"
+          css={noDecoration}
+        >
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            css={{ marginLeft: '80px ' }}
+          >
+            API docs
+          </Typography>
         </a>
       </Toolbar>
     </AppBar>

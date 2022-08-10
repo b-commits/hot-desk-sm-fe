@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { DeskList } from './DeskList';
-import { LocationList } from './LocationList';
+import { LocationList } from './LocationList/LocationList';
 
 const AdminPanel = () => {
   return (
