@@ -7,37 +7,21 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import {
-  datePicker,
-  addButton,
-  formAlert,
-  editIcon,
-} from './Desks.module.style';
 import { isEmpty } from 'lodash';
+import { useAppDispatch } from '../app/hooks';
+import { postLocation } from '../features/desk/api/deskApi';
 
 export function LocationForm() {
   const [open, setOpen] = useState<boolean>(false);
-  const [locatioName, setLocationName] = useState<string | null>(null);
-  const [errorName, setErrorName] = useState<{ name: string }>();
-  const [dateStart, setDateStart] = useState<Date | null>();
-  const [dateEnd, setDateEnd] = useState<Date | null>();
+  const [city, setCityName] = useState<string>('');
+  const dispatch = useAppDispatch();
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const validateName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = event;
-    setErrorName({ name: '' });
-    setLocationName(value);
-    if (value.length < 5) {
-      setErrorName({ name: 'Name must be at least five characters long' });
-    }
+  const saveLocation = () => {
+    dispatch(postLocation(city));
   };
 
   return (
@@ -57,25 +41,19 @@ export function LocationForm() {
             'Save'.
           </DialogContentText>
           <TextField
-            onChange={validateName}
             autoFocus
             margin="dense"
             id="name"
-            label="Product Name"
+            label="City"
             type="text"
             fullWidth
-            error={!isEmpty(errorName)}
-            helperText={'abc'}
+            onChange={(event) => setCityName(event.target.value)}
             variant="standard"
-            required
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancel</Button>
-          <Button
-            type="submit"
-            onClick={() => console.log('tu byl handle submit')}
-          >
+          <Button type="submit" onClick={() => saveLocation()}>
             Save
           </Button>
         </DialogActions>

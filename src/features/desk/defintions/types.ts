@@ -11,7 +11,7 @@ export interface Desk {
 export interface Reservation {
   id: string;
   name: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   deskId: string;
 }

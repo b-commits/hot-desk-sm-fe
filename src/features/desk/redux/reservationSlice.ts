@@ -12,8 +12,8 @@ const initialReservation: Reservation = {
   id: '',
   deskId: '',
   name: '',
-  endDate: new Date(),
-  startDate: new Date(),
+  endDate: '',
+  startDate: '',
 };
 
 const initialState: ReservationState = {

@@ -8,26 +8,31 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { useState } from 'react';
+import { useAppDispatch } from '../app/hooks';
+import { deleteLocations } from '../features/desk/api/deskApi';
+import { Location } from '../features/desk/defintions/types';
 
-interface Props {
-  id: string;
-  name?: string;
-}
-
-export const ConfirmationPopup = ({ id, name }: Props) => {
+export const ConfirmationPopup = ({ id, city }: Location) => {
   const [open, setOpen] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const handleClickOpen: () => void = () => {
     setOpen(true);
   };
 
-  const handleDelete: () => void = () => {
-    // dispatch(deleteLocation(id));
-  };
-
   const handleClose: () => void = () => {
     setOpen(false);
   };
+
+  const handleDelete: () => void = () => {
+    dispatch(
+      deleteLocations({
+        id: id,
+        city: city,
+      })
+    );
+  };
+
   return (
     <>
       <Button
@@ -44,7 +49,7 @@ export const ConfirmationPopup = ({ id, name }: Props) => {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{`Are you sure you want to delete ${name} [${id}]?`}</DialogTitle>
+        <DialogTitle>{`Are you sure you want to delete ${city} [${id}]?`}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             Please remember that all changes are permanent. You will not be able

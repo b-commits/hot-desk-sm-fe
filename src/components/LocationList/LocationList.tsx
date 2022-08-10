@@ -9,10 +9,14 @@ import TableCell from '@mui/material/TableCell';
 import { tableHeader, tableWrapperLocation } from '../Desks.module.style';
 import { LocationForm } from '../LocationForm';
 import { ConfirmationPopup } from '../ConfirmationPopup';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectLocations } from '../../features/desk/redux/locationSlice';
+import {
+  selectLocations,
+  selectStatus,
+} from '../../features/desk/redux/locationSlice';
 import { getLocations } from '../../features/desk/api/deskApi';
+import { shallowEqual } from 'react-redux';
 
 interface Column {
   id: 'id' | 'city';
@@ -23,7 +27,7 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: 'id', label: 'Location ID' },
+  { id: 'id', label: 'Location ObjectID' },
   { id: 'city', label: 'City' },
 ];
 
@@ -66,7 +70,7 @@ export function LocationList() {
                     );
                   })}
                   <TableCell>
-                    <ConfirmationPopup id={location.id} name={location.city} />
+                    <ConfirmationPopup id={location.id} city={location.city} />
                   </TableCell>
                 </TableRow>
               );
