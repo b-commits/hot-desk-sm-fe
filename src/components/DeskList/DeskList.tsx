@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { getDesks } from '../../features/desk/api/deskApi';
 import { selectDesks } from '../../features/desk/redux/deskSlice';
-import { AddDeskForm } from '../AddDeskForm';
+import { AddDeskForm } from './DeskForm';
 import DeskTableCell from './DeskTableCell';
 
 interface Column {

@@ -11,7 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import { tableWrapper, searchBar, tableHeader } from './Desks.module.style';
 import { useState } from 'react';
 import { ReservationForm } from './ReservationForm';
-import { AddDeskForm } from './AddDeskForm';
+import { AddDeskForm } from './DeskList/DeskForm';
 
 const mockDesks = [
   {

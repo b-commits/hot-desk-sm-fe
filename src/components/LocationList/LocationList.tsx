@@ -7,7 +7,7 @@ import TableRow from '@mui/material/TableRow';
 import TableContainer from '@mui/material/TableContainer';
 import TableCell from '@mui/material/TableCell';
 import { tableHeader, tableWrapperLocation } from '../Desks.module.style';
-import { LocationForm } from '../LocationForm';
+import { LocationForm } from './LocationForm';
 import { ConfirmationPopup } from '../ConfirmationPopup';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
