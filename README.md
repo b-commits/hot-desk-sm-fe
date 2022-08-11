@@ -1,7 +1,5 @@
 # hot-desk-sm-fe
-Work in progress. Needs a whole lot of refactoring.
-
-I will update this with a live URL soon.
+Front-end isn't finished just yet. I will update this with a live URL soon.
 
 # Specs
 
