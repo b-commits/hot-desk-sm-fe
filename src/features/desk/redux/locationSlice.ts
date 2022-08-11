@@ -1,8 +1,7 @@
 import { ActionReducerMapBuilder, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../../app/store';
-import { deleteLocations, getLocations, postLocation } from '../api/deskApi';
-import { Location } from '../defintions/types';
-import { HTTP_Status } from './defintions';
+import { deleteLocation, getLocations, postLocation } from '../api/locationApi';
+import { HTTP_Status, Location } from '../defintions/types';
 
 export const BASE_SLICE_NAME: string = 'location';
 
@@ -31,15 +30,15 @@ export const locationSlice = createSlice({
         state.locations = action.payload;
         state.status = HTTP_Status.FULFILLED;
       })
-      .addCase(deleteLocations.pending, (state) => {
+      .addCase(deleteLocation.pending, (state) => {
         state.status = HTTP_Status.PENDING;
       })
-      .addCase(deleteLocations.rejected, (state, action) => {
+      .addCase(deleteLocation.rejected, (state, action) => {
         console.log(action);
       })
-      .addCase(deleteLocations.fulfilled, (state, action) => {
+      .addCase(deleteLocation.fulfilled, (state, action) => {
         state.locations = state.locations.filter(
-          (location) => location.id != action.payload.id
+          (location) => location.id !== action.payload.id
         );
         state.status = HTTP_Status.FULFILLED;
       })
@@ -47,7 +46,7 @@ export const locationSlice = createSlice({
         state.status = HTTP_Status.PENDING;
       })
       .addCase(postLocation.fulfilled, (state, action) => {
-        // state.locations += action.payload;
+        state.locations.push(action.payload);
         state.status = HTTP_Status.FULFILLED;
       });
   },
@@ -57,5 +56,11 @@ export const { addLocation } = locationSlice.actions;
 
 export const selectLocations = (state: RootState) => state.location.locations;
 export const selectStatus = (state: RootState) => state.location.status;
+export const selectLocationCityById =
+  (locationId: string) => (state: RootState) => {
+    return state.location.locations.filter(
+      (location) => location.id === locationId
+    )[0]?.city;
+  };
 
 export default locationSlice.reducer;

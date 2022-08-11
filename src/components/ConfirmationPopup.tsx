@@ -9,10 +9,15 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { useAppDispatch } from '../app/hooks';
-import { deleteLocations } from '../features/desk/api/deskApi';
-import { Location } from '../features/desk/defintions/types';
+import { deleteLocation } from '../features/desk/api/locationApi';
+import { deleteDesk } from '../features/desk/api/deskApi';
+import { Desk, Location, Reservation } from '../features/desk/defintions/types';
 
-export const ConfirmationPopup = ({ id, city }: Location) => {
+interface Props {
+  resource: Location | Reservation | Desk;
+}
+
+export const ConfirmationPopup = ({ resource }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
@@ -25,12 +30,13 @@ export const ConfirmationPopup = ({ id, city }: Location) => {
   };
 
   const handleDelete: () => void = () => {
-    dispatch(
-      deleteLocations({
-        id: id,
-        city: city,
-      })
-    );
+    if ('locationId' in resource) {
+      dispatch(deleteDesk(resource));
+    }
+    if ('city' in resource) {
+      dispatch(deleteLocation(resource));
+    }
+    setOpen(false);
   };
 
   return (
@@ -41,7 +47,7 @@ export const ConfirmationPopup = ({ id, city }: Location) => {
         variant="outlined"
         css={{ marginTop: '10px', marginBottom: '20px', marginLeft: '10px' }}
       >
-        DELETE LOCATION
+        Delete
       </Button>
       <Dialog
         open={open}
@@ -49,7 +55,7 @@ export const ConfirmationPopup = ({ id, city }: Location) => {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{`Are you sure you want to delete ${city} [${id}]?`}</DialogTitle>
+        <DialogTitle>{`Are you sure you want to delete this item?`}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             Please remember that all changes are permanent. You will not be able

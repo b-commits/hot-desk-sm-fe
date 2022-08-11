@@ -1,12 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import { DeskList } from './DeskList';
+import { ReservationList } from './ReservationList';
 import { LocationList } from './LocationList/LocationList';
+import { DeskList } from './DeskList/DeskList';
 
 const AdminPanel = () => {
   return (
     <section>
       <LocationList />
       <DeskList />
+      <ReservationList />
     </section>
   );
 };

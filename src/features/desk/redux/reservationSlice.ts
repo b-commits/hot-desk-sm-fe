@@ -8,16 +8,8 @@ export interface ReservationState {
   reservations: Reservation[];
 }
 
-const initialReservation: Reservation = {
-  id: '',
-  deskId: '',
-  name: '',
-  endDate: '',
-  startDate: '',
-};
-
 const initialState: ReservationState = {
-  reservations: [initialReservation],
+  reservations: [],
 };
 
 export const reservationSlice = createSlice({

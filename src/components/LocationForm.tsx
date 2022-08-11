@@ -7,9 +7,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
-import { isEmpty } from 'lodash';
 import { useAppDispatch } from '../app/hooks';
-import { postLocation } from '../features/desk/api/deskApi';
+import { postLocation } from '../features/desk/api/locationApi';
 
 export function LocationForm() {
   const [open, setOpen] = useState<boolean>(false);
@@ -22,6 +21,7 @@ export function LocationForm() {
 
   const saveLocation = () => {
     dispatch(postLocation(city));
+    setOpen(false);
   };
 
   return (

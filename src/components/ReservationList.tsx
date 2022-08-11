@@ -9,8 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { tableWrapper, searchBar, tableHeader } from './Desks.module.style';
-import { useEffect, useState } from 'react';
-import { Button, Grid } from '@mui/material';
+import { useState } from 'react';
 import { ReservationForm } from './ReservationForm';
 import { AddDeskForm } from './AddDeskForm';
 
@@ -226,7 +225,7 @@ const columns: readonly Column[] = [
   },
 ];
 
-export function DeskList() {
+export function ReservationList() {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const DEFAULT_PAGE: number = 0;

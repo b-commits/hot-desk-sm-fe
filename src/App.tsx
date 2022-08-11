@@ -1,5 +1,5 @@
 import { Header } from './components/Header';
-import { DeskList } from './components/DeskList';
+import { ReservationList } from './components/ReservationList';
 import { Route, Routes } from 'react-router-dom';
 import AdminPanel from './components/AdminPanel';
 
@@ -8,7 +8,7 @@ function App() {
     <div className="App">
       <Header />
       <Routes>
-        <Route path="/" element={<DeskList />} />
+        <Route path="/" element={<ReservationList />} />
         <Route path="/admin" element={<AdminPanel />} />
       </Routes>
     </div>

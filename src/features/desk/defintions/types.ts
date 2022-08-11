@@ -15,3 +15,17 @@ export interface Reservation {
   endDate: string;
   deskId: string;
 }
+
+export enum ResourceType {
+  DESK = 'Desk',
+  LOCATION = 'Location',
+  RESERVATION = 'Reservation',
+}
+
+export enum HTTP_Status {
+  PENDING = 'pending',
+  REJECTED = 'rejected',
+  FULFILLED = 'fulfilled',
+  ERROR = 'Error',
+  IDLE = 'Idle',
+}

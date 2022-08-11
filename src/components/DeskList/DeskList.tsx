@@ -7,28 +7,33 @@ import TableRow from '@mui/material/TableRow';
 import TableContainer from '@mui/material/TableContainer';
 import TableCell from '@mui/material/TableCell';
 import { tableHeader, tableWrapperLocation } from '../Desks.module.style';
-import { LocationForm } from '../LocationForm';
 import { ConfirmationPopup } from '../ConfirmationPopup';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { getLocations } from '../../features/desk/api/locationApi';
-import { selectLocations } from '../../features/desk/redux/locationSlice';
+import { getDesks } from '../../features/desk/api/deskApi';
+import { selectDesks } from '../../features/desk/redux/deskSlice';
+import { AddDeskForm } from '../AddDeskForm';
+import DeskTableCell from './DeskTableCell';
 
 interface Column {
-  id: 'city';
+  id: 'id' | 'locationId';
   label: string;
-  minWidth?: 250;
+  minWidth?: number;
+  align?: 'right';
   format?: (value: number) => string;
 }
 
-const columns: readonly Column[] = [{ id: 'city', label: 'City' }];
+const columns: readonly Column[] = [
+  { id: 'id', label: 'Desk ID' },
+  { id: 'locationId', label: 'Desk located in' },
+];
 
-export function LocationList() {
+export function DeskList() {
   const dispatch = useAppDispatch();
-  const locations = useAppSelector(selectLocations);
+  const desks = useAppSelector(selectDesks);
 
   useEffect(() => {
-    dispatch(getLocations());
+    dispatch(getDesks());
   }, [dispatch]);
 
   return (
@@ -41,6 +46,7 @@ export function LocationList() {
                 <TableCell
                   css={tableHeader}
                   key={column.id}
+                  align={column.align}
                   style={{ minWidth: column.minWidth }}
                 >
                   {column.label}
@@ -50,18 +56,22 @@ export function LocationList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {locations.map((location) => {
+            {desks.map((desk) => {
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={location.id}>
+                <TableRow hover role="checkbox" tabIndex={-1} key={desk.id}>
                   {columns.map((column) => {
                     return (
-                      <TableCell key={column.id}>
-                        {location[column.id]}
+                      <TableCell key={column.id} align={column.align}>
+                        {column.id === 'locationId' ? (
+                          <DeskTableCell desk={desk} />
+                        ) : (
+                          desk[column.id]
+                        )}
                       </TableCell>
                     );
                   })}
                   <TableCell>
-                    <ConfirmationPopup resource={location} />
+                    <ConfirmationPopup resource={desk} />
                   </TableCell>
                 </TableRow>
               );
@@ -69,7 +79,7 @@ export function LocationList() {
           </TableBody>
         </Table>
       </TableContainer>
-      <LocationForm />
+      <AddDeskForm />
     </Paper>
   );
 }
