@@ -1,6 +1,8 @@
 # hot-desk-sm-fe
 Work in progress. Needs a whole lot of refactoring.
 
+I will update this with a live URL soon.
+
 # Specs
 
 In order to run the project, please clone the repo onto your local machine, navigate to the project's root directory, install the dependencies and run the following commands:
