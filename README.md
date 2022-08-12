@@ -14,5 +14,5 @@ Alternatively, you can visit the following URL and try out the live demo yoursel
 |                  | Description                                     |
 | ---------------- | ----------------------------------------------- |
 | Dotnet           | v6.0.4                                          |
-| Backend-end      | [https://github.com/b-commits/hot-desk-sm-be](https://github.com/b-commits/hot-desk-sm-be) |
+| Back-end      | [https://github.com/b-commits/hot-desk-sm-be](https://github.com/b-commits/hot-desk-sm-be) |
 | BE Swagger Doc      | [https://hotdesk-api.azurewebsites.net/swagger/index.html](https://hotdesk-api.azurewebsites.net/swagger/index.html) |
