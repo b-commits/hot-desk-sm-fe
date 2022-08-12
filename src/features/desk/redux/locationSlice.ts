@@ -1,7 +1,7 @@
 import { ActionReducerMapBuilder, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../../app/store';
 import { deleteLocation, getLocations, postLocation } from '../api/locationApi';
-import { HTTP_Status, Location } from '../defintions/types';
+import { HTTP_Status, Location } from '../definitions/types';
 
 export const BASE_SLICE_NAME: string = 'location';
 

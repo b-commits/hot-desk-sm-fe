@@ -1,7 +1,7 @@
 import { ActionReducerMapBuilder, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../../app/store';
 import { deleteDesk, getDesks, postDesk } from '../api/deskApi';
-import { Desk, HTTP_Status } from '../defintions/types';
+import { Desk, HTTP_Status } from '../definitions/types';
 
 export const BASE_SLICE_NAME: string = 'desk';
 

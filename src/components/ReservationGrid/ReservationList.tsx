@@ -8,10 +8,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { tableWrapper, searchBar, tableHeader } from './Desks.module.style';
+import { tableWrapper, searchBar, tableHeader } from '../Desks.module.style';
 import { useState } from 'react';
 import { ReservationForm } from './ReservationForm';
-import { AddDeskForm } from './DeskList/DeskForm';
+import { AddDeskForm } from '../DeskList/DeskForm';
 
 const mockDesks = [
   {
@@ -317,7 +317,7 @@ export function ReservationList() {
           </TableBody>
         </Table>
       </TableContainer>
-      <AddDeskForm />
+      <ReservationForm />
       <TablePagination
         rowsPerPageOptions={[10, 15, 30]}
         component="div"

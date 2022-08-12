@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Location } from '../defintions/types';
+import { Location } from '../definitions/types';
 
 const API_BASE_URL: string = 'https://hotdesk-api.azurewebsites.net/locations/';
 

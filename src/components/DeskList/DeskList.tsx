@@ -14,6 +14,11 @@ import { getDesks } from '../../features/desk/api/deskApi';
 import { selectDesks } from '../../features/desk/redux/deskSlice';
 import { AddDeskForm } from './DeskForm';
 import DeskTableCell from './DeskTableCell';
+import { ReservationForm } from '../ReservationGrid/ReservationForm';
+
+interface Props {
+  reservationVariant?: boolean;
+}
 
 interface Column {
   id: 'id' | 'locationId';
@@ -28,7 +33,7 @@ const columns: readonly Column[] = [
   { id: 'locationId', label: 'Desk located in' },
 ];
 
-export function DeskList() {
+export function DeskList({ reservationVariant }: Props) {
   const dispatch = useAppDispatch();
   const desks = useAppSelector(selectDesks);
 
@@ -71,7 +76,11 @@ export function DeskList() {
                     );
                   })}
                   <TableCell>
-                    <ConfirmationPopup resource={desk} />
+                    {reservationVariant ? (
+                      <ReservationForm />
+                    ) : (
+                      <ConfirmationPopup resource={desk} />
+                    )}
                   </TableCell>
                 </TableRow>
               );
@@ -79,7 +88,7 @@ export function DeskList() {
           </TableBody>
         </Table>
       </TableContainer>
-      <AddDeskForm />
+      {!reservationVariant && <AddDeskForm />}
     </Paper>
   );
 }

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../../app/store';
-import { Reservation } from '../defintions/types';
+import { Reservation } from '../definitions/types';
 
 export const BASE_SLICE_NAME: string = 'reservation';
 

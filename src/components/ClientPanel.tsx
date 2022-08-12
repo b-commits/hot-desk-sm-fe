@@ -1,15 +1,13 @@
 import { ReservationList } from './ReservationGrid/ReservationList';
-import { LocationList } from './LocationList/LocationList';
 import { DeskList } from './DeskList/DeskList';
 
-const AdminPanel = () => {
+const ClientPanel = () => {
   return (
     <section>
-      <LocationList />
-      <DeskList />
+      <DeskList reservationVariant />
       <ReservationList />
     </section>
   );
 };
 
-export default AdminPanel;
+export default ClientPanel;

@@ -11,7 +11,11 @@ import { useState } from 'react';
 import { useAppDispatch } from '../app/hooks';
 import { deleteLocation } from '../features/desk/api/locationApi';
 import { deleteDesk } from '../features/desk/api/deskApi';
-import { Desk, Location, Reservation } from '../features/desk/defintions/types';
+import {
+  Desk,
+  Location,
+  Reservation,
+} from '../features/desk/definitions/types';
 
 interface Props {
   resource: Location | Reservation | Desk;
