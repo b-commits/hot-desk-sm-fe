@@ -1,5 +1,5 @@
 # hot-desk-sm-fe
-Front-end isn't finished just yet. I will update this with a live URL soon.
+This is mostly done. Admittedly, though, the front-end was a bit rushed and the code could use a lot of refactoring.
 
 # Specs
 
@@ -9,10 +9,11 @@ In order to run the project, please clone the repo onto your local machine, navi
     `npm start`
 
 Alternatively, you can visit the following URL and try out the live demo yourself:
-[placeholder will update once im done with this](https://hotdesk-api.azurewebsites.net/swagger/index.html)
+[CLICK HERE](https://b-commits.github.io/hot-desk-sm-fe/)
 
 |                  | Description                                     |
 | ---------------- | ----------------------------------------------- |
-| Dotnet           | v6.0.4                                          |
+| NPM           | v8.1.0                                          |
+| Live URL         | [https://b-commits.github.io/hot-desk-sm-fe/](https://b-commits.github.io/hot-desk-sm-fe/)    |
 | Back-end      | [https://github.com/b-commits/hot-desk-sm-be](https://github.com/b-commits/hot-desk-sm-be) |
 | BE Swagger Doc      | [https://hotdesk-api.azurewebsites.net/swagger/index.html](https://hotdesk-api.azurewebsites.net/swagger/index.html) |
