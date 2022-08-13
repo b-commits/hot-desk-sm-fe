@@ -11,19 +11,19 @@ import {
   tableHeader,
   tableWrapperLocation,
 } from '../Desks.module.style';
-import { ConfirmationPopup } from '../ConfirmationPopup';
+import { ConfirmationPopup } from '../../../../shared/ConfirmationPopup';
 import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { getDesks } from '../../features/desk/api/deskApi';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
+import { getDesks } from '../../api/deskApi';
 import {
   selectDeskIdsByLocationName,
   selectStatus,
-} from '../../features/desk/redux/deskSlice';
+} from '../../redux/deskSlice';
 import { AddDeskForm } from './DeskForm';
 import DeskTableCell from './DeskTableCell';
 import { ReservationForm } from '../ReservationGrid/ReservationForm';
 import { CircularProgress, TextField } from '@mui/material';
-import { HTTP_Status } from '../../features/desk/definitions/types';
+import { HTTP_Status } from '../../definitions/types';
 
 interface Props {
   reservationVariant?: boolean;

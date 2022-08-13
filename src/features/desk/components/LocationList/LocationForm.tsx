@@ -7,8 +7,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
-import { useAppDispatch } from '../../app/hooks';
-import { postLocation } from '../../features/desk/api/locationApi';
+import { useAppDispatch } from '../../../../app/hooks';
+import { postLocation } from '../../api/locationApi';
 
 export function LocationForm() {
   const [open, setOpen] = useState<boolean>(false);

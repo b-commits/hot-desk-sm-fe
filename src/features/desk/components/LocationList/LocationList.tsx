@@ -8,13 +8,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableCell from '@mui/material/TableCell';
 import { tableHeader, tableWrapperLocation } from '../Desks.module.style';
 import { LocationForm } from './LocationForm';
-import { ConfirmationPopup } from '../ConfirmationPopup';
-import { useAppSelector } from '../../app/hooks';
-import {
-  selectLocations,
-  selectStatus,
-} from '../../features/desk/redux/locationSlice';
-import { HTTP_Status } from '../../features/desk/definitions/types';
+import { ConfirmationPopup } from '../../../../shared/ConfirmationPopup';
+import { useAppSelector } from '../../../../app/hooks';
+import { selectLocations, selectStatus } from '../../redux/locationSlice';
+import { HTTP_Status } from '../../definitions/types';
 import { CircularProgress } from '@mui/material';
 
 interface Column {

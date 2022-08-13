@@ -1,6 +1,6 @@
-import { useAppSelector } from '../../app/hooks';
-import { Desk } from '../../features/desk/definitions/types';
-import { selectLocationCityById } from '../../features/desk/redux/locationSlice';
+import { useAppSelector } from '../../../../app/hooks';
+import { Desk } from '../../definitions/types';
+import { selectLocationCityById } from '../../redux/locationSlice';
 
 interface Props {
   desk: Desk;

@@ -13,9 +13,9 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectLocations } from '../../features/desk/redux/locationSlice';
-import { postDesk } from '../../features/desk/api/deskApi';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
+import { selectLocations } from '../../redux/locationSlice';
+import { postDesk } from '../../api/deskApi';
 
 export function AddDeskForm() {
   const [open, setOpen] = useState<boolean>(false);

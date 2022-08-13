@@ -12,9 +12,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { datePicker } from '../Desks.module.style';
 import { FormControl } from '@mui/material';
-import { useAppDispatch } from '../../app/hooks';
-import { Desk, Reservation } from '../../features/desk/definitions/types';
-import { postReservation } from '../../features/desk/api/reservationApi';
+import { useAppDispatch } from '../../../../app/hooks';
+import { Desk, Reservation } from '../../definitions/types';
+import { postReservation } from '../../api/reservationApi';
 
 interface Props {
   desk: Desk;

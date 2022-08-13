@@ -1,13 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { noDecoration } from './Desks.module.style';
 
 export function Header() {
   return (
     <AppBar>
       <Toolbar>
-        <Link to="/" css={noDecoration}>
+        <Link to="/" css={{ textDecoration: 'none', color: 'white' }}>
           <IconButton
             size="large"
             edge="start"
@@ -19,7 +18,7 @@ export function Header() {
             </Typography>
           </IconButton>
         </Link>
-        <Link to="/admin" css={noDecoration}>
+        <Link to="/admin" css={{ textDecoration: 'none', color: 'white' }}>
           <IconButton
             size="large"
             edge="start"
@@ -34,7 +33,7 @@ export function Header() {
         </Link>
         <a
           href="https://hotdesk-api.azurewebsites.net/swagger/index.html"
-          css={noDecoration}
+          css={{ textDecoration: 'none', color: 'white' }}
         >
           <Typography
             variant="h6"

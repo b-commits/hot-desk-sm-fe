@@ -9,13 +9,10 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { tableWrapper, tableHeader } from '../Desks.module.style';
 import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { getReservations } from '../../features/desk/api/reservationApi';
-import {
-  selectReservations,
-  selectStatus,
-} from '../../features/desk/redux/reservationSlice';
-import { HTTP_Status } from '../../features/desk/definitions/types';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
+import { getReservations } from '../../api/reservationApi';
+import { selectReservations, selectStatus } from '../../redux/reservationSlice';
+import { HTTP_Status } from '../../definitions/types';
 import { CircularProgress } from '@mui/material';
 
 interface Column {
