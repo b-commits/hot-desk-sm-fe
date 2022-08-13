@@ -28,11 +28,14 @@ export const deleteReservation = createAsyncThunk(
 
 export const postReservation = createAsyncThunk(
   'postReservation',
-  async (reservation: Reservation) => {
+  async ({ endDate, startDate, name, deskId }: Reservation) => {
     const response = await fetch(`${API_BASE_URL}`, {
       method: 'POST',
       body: JSON.stringify({
-        reservation: reservation,
+        endDate: endDate,
+        startDate: startDate,
+        name: name,
+        deskId: deskId,
       }),
       headers: {
         'Content-Type': 'application/json',

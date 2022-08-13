@@ -24,13 +24,7 @@ interface Column {
 const columns: readonly Column[] = [{ id: 'city', label: 'City' }];
 
 export function LocationList() {
-  const dispatch = useAppDispatch();
   const locations = useAppSelector(selectLocations);
-
-  useEffect(() => {
-    dispatch(getLocations());
-  }, [dispatch]);
-
   return (
     <Paper css={tableWrapperLocation}>
       <TableContainer>

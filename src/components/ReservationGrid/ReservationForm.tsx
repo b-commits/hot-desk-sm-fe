@@ -12,15 +12,35 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { datePicker } from '../Desks.module.style';
 import { FormControl } from '@mui/material';
+import { useAppDispatch } from '../../app/hooks';
+import { Desk, Reservation } from '../../features/desk/definitions/types';
+import { postReservation } from '../../features/desk/api/reservationApi';
 
-export function ReservationForm() {
+interface Props {
+  desk: Desk;
+}
+
+export function ReservationForm({ desk }: Props) {
+  const dispatch = useAppDispatch();
+
   const [open, setOpen] = useState<boolean>(false);
-  const [name, setName] = useState<string | null>(null);
-  const [dateStart, setDateStart] = useState<Date | null>();
-  const [dateEnd, setDateEnd] = useState<Date | null>();
+  const [name, setName] = useState<string>();
+  const [dateStart, setDateStart] = useState<Date | null>(null);
+  const [dateEnd, setDateEnd] = useState<Date | null>(null);
 
   const handleClickOpen = () => {
     setOpen(true);
+  };
+
+  const saveReservation = () => {
+    const reservation: Reservation = {
+      deskId: desk.id,
+      endDate: dateEnd!.toJSON(),
+      startDate: dateStart!.toJSON(),
+      name: name!,
+      id: '',
+    };
+    dispatch(postReservation(reservation));
   };
 
   return (
@@ -43,6 +63,9 @@ export function ReservationForm() {
             type="text"
             fullWidth
             variant="standard"
+            onChange={(event) => {
+              setName(event.target.value);
+            }}
             required
           />
           <FormControl fullWidth css={{ marginTop: '15px' }}></FormControl>
@@ -77,10 +100,7 @@ export function ReservationForm() {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancel</Button>
-          <Button
-            type="submit"
-            onClick={() => console.log('tu byl handle submit')}
-          >
+          <Button type="submit" onClick={() => saveReservation()}>
             Save
           </Button>
         </DialogActions>

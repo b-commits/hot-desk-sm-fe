@@ -8,191 +8,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { tableWrapper, searchBar, tableHeader } from '../Desks.module.style';
-import { useState } from 'react';
-import { ReservationForm } from './ReservationForm';
-import { AddDeskForm } from '../DeskList/DeskForm';
-
-const mockDesks = [
-  {
-    deskId: 1,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 2,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 3,
-    status: true,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 4,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 5,
-    status: true,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 6,
-    status: true,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 7,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 8,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 9,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 10,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 11,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 12,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 13,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 14,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 15,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 16,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 17,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 18,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 19,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 20,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 21,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 22,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 23,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 24,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-  {
-    deskId: 25,
-    status: false,
-    dateStart: Date.now(),
-    dateEnd: Date.now(),
-    location: 'Warsaw',
-  },
-];
+import { tableWrapper, tableHeader, searchBar } from '../Desks.module.style';
+import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { getReservations } from '../../features/desk/api/reservationApi';
+import { selectReservations } from '../../features/desk/redux/reservationSlice';
 
 interface Column {
-  id: 'deskId' | 'status' | 'dateStart' | 'dateEnd' | 'location';
+  id: 'deskId' | 'name' | 'startDate' | 'endDate';
   label: string;
   minWidth?: number;
   align?: 'right';
@@ -201,54 +24,45 @@ interface Column {
 
 const columns: readonly Column[] = [
   { id: 'deskId', label: 'Desk ID', minWidth: 170 },
-  { id: 'status', label: 'Status', minWidth: 100 },
+  { id: 'name', label: 'Name', minWidth: 100 },
   {
-    id: 'dateStart',
+    id: 'startDate',
     label: 'Start date',
     minWidth: 170,
     align: 'right',
     format: (value: number) => value.toLocaleString('en-US'),
   },
   {
-    id: 'dateEnd',
+    id: 'endDate',
     label: 'End date',
     minWidth: 170,
     align: 'right',
     format: (value: number) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'location',
-    label: 'Location',
-    minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toFixed(2),
   },
 ];
 
 export function ReservationList() {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
-  const DEFAULT_PAGE: number = 0;
+  const dispatch = useAppDispatch();
+  const reservations = useAppSelector(selectReservations);
 
   const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
+  useEffect(() => {
+    dispatch(getReservations());
+  }, [dispatch]);
+
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setRowsPerPage(+event.target.value);
-    setPage(DEFAULT_PAGE);
   };
 
   return (
     <Paper css={tableWrapper}>
-      <TextField
-        id="searchByProductName"
-        label="Find your hot-desk now..."
-        variant="standard"
-        css={searchBar}
-      />
       <TableContainer>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -267,61 +81,35 @@ export function ReservationList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {mockDesks
+            {reservations
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((desk) => {
+              .map((reservation) => {
                 return (
                   <TableRow
                     hover
                     role="checkbox"
                     tabIndex={-1}
-                    key={desk.deskId}
-                    css={
-                      desk.status === false
-                        ? { backgroundColor: 'whitesmoke' }
-                        : {}
-                    }
+                    key={reservation.id}
                   >
                     {columns.map((column) => {
-                      if (desk[column.id] === false) {
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            Taken
-                          </TableCell>
-                        );
-                      }
-                      if (desk[column.id] === true) {
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            Available
-                          </TableCell>
-                        );
-                      }
-
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {desk[column.id]}
+                          {column.id.toLowerCase().includes('date')
+                            ? reservation[column.id].substring(0, 10)
+                            : reservation[column.id]}
                         </TableCell>
                       );
                     })}
-                    {desk.status === false ? (
-                      <TableCell />
-                    ) : (
-                      <TableCell>
-                        <ReservationForm />
-                      </TableCell>
-                    )}
+                    <TableCell />
                   </TableRow>
                 );
               })}
           </TableBody>
         </Table>
       </TableContainer>
-      <ReservationForm />
       <TablePagination
         rowsPerPageOptions={[10, 15, 30]}
-        component="div"
-        count={mockDesks.length}
+        count={reservations.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

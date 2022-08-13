@@ -56,5 +56,22 @@ export const { addDesk } = deskSlice.actions;
 
 export const selectDesks = (state: RootState) => state.desk.desks;
 export const selectStatus = (state: RootState) => state.desk.status;
+export const selectDeskIdsByLocationName =
+  (locationName: string | undefined) => (state: RootState) => {
+    if (!locationName) {
+      return state.desk.desks;
+    } else {
+      const locations = state.location.locations;
+      const filteredLocationIds = locations
+        .filter((location) =>
+          location.city.toLowerCase().includes(locationName.toLowerCase())
+        )
+        .map((location) => location.id);
+      const filteredDesks = state.desk.desks.filter((desk) => {
+        return filteredLocationIds.includes(desk.locationId);
+      });
+      return filteredDesks;
+    }
+  };
 
 export default deskSlice.reducer;

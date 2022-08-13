@@ -14,7 +14,6 @@ export const noDecoration = css({
 export const tableWrapper = css({
   margin: '8%',
   overflow: 'hidden',
-  minHeight: '100vh',
 });
 
 export const tableWrapperLocation = css({

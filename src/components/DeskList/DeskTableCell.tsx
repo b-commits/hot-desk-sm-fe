@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAppSelector } from '../../app/hooks';
 import { Desk } from '../../features/desk/definitions/types';
 import { selectLocationCityById } from '../../features/desk/redux/locationSlice';

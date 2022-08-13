@@ -1,6 +1,10 @@
 import { ActionReducerMapBuilder, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../../app/store';
-import { deleteReservation, getReservations, postReservation } from '../api/reservationApi';
+import {
+  deleteReservation,
+  getReservations,
+  postReservation,
+} from '../api/reservationApi';
 import { HTTP_Status, Reservation } from '../definitions/types';
 
 export const BASE_SLICE_NAME: string = 'reservation';
@@ -12,7 +16,7 @@ export interface ReservationState {
 
 const initialState: ReservationState = {
   reservations: [],
-  status: HTTP_Status.IDLE;
+  status: HTTP_Status.IDLE,
 };
 
 export const reservationSlice = createSlice({

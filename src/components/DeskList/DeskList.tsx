@@ -6,15 +6,24 @@ import Paper from '@mui/material/Paper';
 import TableRow from '@mui/material/TableRow';
 import TableContainer from '@mui/material/TableContainer';
 import TableCell from '@mui/material/TableCell';
-import { tableHeader, tableWrapperLocation } from '../Desks.module.style';
+import {
+  searchBar,
+  tableHeader,
+  tableWrapperLocation,
+} from '../Desks.module.style';
 import { ConfirmationPopup } from '../ConfirmationPopup';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { getDesks } from '../../features/desk/api/deskApi';
-import { selectDesks } from '../../features/desk/redux/deskSlice';
+import {
+  selectDeskIdsByLocationName,
+  selectDesks,
+} from '../../features/desk/redux/deskSlice';
 import { AddDeskForm } from './DeskForm';
 import DeskTableCell from './DeskTableCell';
 import { ReservationForm } from '../ReservationGrid/ReservationForm';
+import { TextField } from '@mui/material';
+import { selectLocations } from '../../features/desk/redux/locationSlice';
 
 interface Props {
   reservationVariant?: boolean;
@@ -36,6 +45,8 @@ const columns: readonly Column[] = [
 export function DeskList({ reservationVariant }: Props) {
   const dispatch = useAppDispatch();
   const desks = useAppSelector(selectDesks);
+  const [searchTerm, setSearchTerm] = useState<string>();
+  const filteredDesks = useAppSelector(selectDeskIdsByLocationName(searchTerm));
 
   useEffect(() => {
     dispatch(getDesks());
@@ -43,6 +54,15 @@ export function DeskList({ reservationVariant }: Props) {
 
   return (
     <Paper css={tableWrapperLocation}>
+      <TextField
+        id="searchByCity"
+        label="Search desk by a city..."
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+        }}
+        variant="standard"
+        css={searchBar}
+      />
       <TableContainer>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -61,7 +81,7 @@ export function DeskList({ reservationVariant }: Props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {desks.map((desk) => {
+            {filteredDesks.map((desk) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={desk.id}>
                   {columns.map((column) => {
@@ -77,7 +97,7 @@ export function DeskList({ reservationVariant }: Props) {
                   })}
                   <TableCell>
                     {reservationVariant ? (
-                      <ReservationForm />
+                      <ReservationForm desk={desk} />
                     ) : (
                       <ConfirmationPopup resource={desk} />
                     )}
