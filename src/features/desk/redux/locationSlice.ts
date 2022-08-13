@@ -33,8 +33,8 @@ export const locationSlice = createSlice({
       .addCase(deleteLocation.pending, (state) => {
         state.status = HTTP_Status.PENDING;
       })
-      .addCase(deleteLocation.rejected, (state, action) => {
-        console.log(action);
+      .addCase(deleteLocation.rejected, (state) => {
+        state.status = HTTP_Status.IDLE;
       })
       .addCase(deleteLocation.fulfilled, (state, action) => {
         state.locations = state.locations.filter(

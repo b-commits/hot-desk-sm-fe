@@ -37,8 +37,8 @@ export const reservationSlice = createSlice({
       .addCase(deleteReservation.pending, (state) => {
         state.status = HTTP_Status.PENDING;
       })
-      .addCase(deleteReservation.rejected, (state, action) => {
-        console.log(action);
+      .addCase(deleteReservation.rejected, (state) => {
+        state.status = HTTP_Status.IDLE;
       })
       .addCase(deleteReservation.fulfilled, (state, action) => {
         state.reservations = state.reservations.filter(

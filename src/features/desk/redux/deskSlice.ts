@@ -33,8 +33,8 @@ export const deskSlice = createSlice({
       .addCase(deleteDesk.pending, (state) => {
         state.status = HTTP_Status.PENDING;
       })
-      .addCase(deleteDesk.rejected, (state, action) => {
-        console.log(action);
+      .addCase(deleteDesk.rejected, (state) => {
+        state.status = HTTP_Status.IDLE;
       })
       .addCase(deleteDesk.fulfilled, (state, action) => {
         state.desks = state.desks.filter(

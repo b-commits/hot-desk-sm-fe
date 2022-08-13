@@ -17,7 +17,7 @@ export const deleteDesk = createAsyncThunk(
 
     if (response.status === 400) {
       alert('This desk has some ongoing reservations. Unable to delete it.');
-      throw new Error('Incorrect');
+      throw new Error('Bad Request');
     }
     return desk;
   }

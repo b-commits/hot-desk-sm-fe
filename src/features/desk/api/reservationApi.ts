@@ -20,7 +20,7 @@ export const deleteReservation = createAsyncThunk(
       alert(
         'This reservation can not be deleted. You can only delete reservations 7 days before they start'
       );
-      throw new Error('Incorrect');
+      throw new Error('Bad Request');
     }
     return reservation;
   }
