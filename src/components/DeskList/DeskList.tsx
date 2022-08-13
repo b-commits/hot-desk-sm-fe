@@ -17,13 +17,13 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { getDesks } from '../../features/desk/api/deskApi';
 import {
   selectDeskIdsByLocationName,
-  selectDesks,
+  selectStatus,
 } from '../../features/desk/redux/deskSlice';
 import { AddDeskForm } from './DeskForm';
 import DeskTableCell from './DeskTableCell';
 import { ReservationForm } from '../ReservationGrid/ReservationForm';
-import { TextField } from '@mui/material';
-import { selectLocations } from '../../features/desk/redux/locationSlice';
+import { CircularProgress, TextField } from '@mui/material';
+import { HTTP_Status } from '../../features/desk/definitions/types';
 
 interface Props {
   reservationVariant?: boolean;
@@ -44,9 +44,9 @@ const columns: readonly Column[] = [
 
 export function DeskList({ reservationVariant }: Props) {
   const dispatch = useAppDispatch();
-  const desks = useAppSelector(selectDesks);
   const [searchTerm, setSearchTerm] = useState<string>();
   const filteredDesks = useAppSelector(selectDeskIdsByLocationName(searchTerm));
+  const desksStatus = useAppSelector(selectStatus);
 
   useEffect(() => {
     dispatch(getDesks());
@@ -54,61 +54,68 @@ export function DeskList({ reservationVariant }: Props) {
 
   return (
     <Paper css={tableWrapperLocation}>
-      <TextField
-        id="searchByCity"
-        label="Search desk by a city..."
-        onChange={(e) => {
-          setSearchTerm(e.target.value);
-        }}
-        variant="standard"
-        css={searchBar}
-      />
-      <TableContainer>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  css={tableHeader}
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-              <TableCell />
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredDesks.map((desk) => {
-              return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={desk.id}>
-                  {columns.map((column) => {
-                    return (
-                      <TableCell key={column.id} align={column.align}>
-                        {column.id === 'locationId' ? (
-                          <DeskTableCell desk={desk} />
+      {desksStatus === HTTP_Status.PENDING ? (
+        <CircularProgress />
+      ) : (
+        <>
+          {' '}
+          <TextField
+            id="searchByCity"
+            label="Search desk by a city..."
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
+            variant="standard"
+            css={searchBar}
+          />
+          <TableContainer>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      css={tableHeader}
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                  <TableCell />
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredDesks.map((desk) => {
+                  return (
+                    <TableRow hover role="checkbox" tabIndex={-1} key={desk.id}>
+                      {columns.map((column) => {
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.id === 'locationId' ? (
+                              <DeskTableCell desk={desk} />
+                            ) : (
+                              desk[column.id]
+                            )}
+                          </TableCell>
+                        );
+                      })}
+                      <TableCell>
+                        {reservationVariant ? (
+                          <ReservationForm desk={desk} />
                         ) : (
-                          desk[column.id]
+                          <ConfirmationPopup resource={desk} />
                         )}
                       </TableCell>
-                    );
-                  })}
-                  <TableCell>
-                    {reservationVariant ? (
-                      <ReservationForm desk={desk} />
-                    ) : (
-                      <ConfirmationPopup resource={desk} />
-                    )}
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      {!reservationVariant && <AddDeskForm />}
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          {!reservationVariant && <AddDeskForm />}
+        </>
+      )}
     </Paper>
   );
 }

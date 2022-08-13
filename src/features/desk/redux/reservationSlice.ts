@@ -60,5 +60,6 @@ export const { addReservation } = reservationSlice.actions;
 
 export const selectReservations = (state: RootState) =>
   state.reservation.reservations;
+export const selectStatus = (state: RootState) => state.desk.status;
 
 export default reservationSlice.reducer;

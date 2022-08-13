@@ -9,10 +9,13 @@ import TableCell from '@mui/material/TableCell';
 import { tableHeader, tableWrapperLocation } from '../Desks.module.style';
 import { LocationForm } from './LocationForm';
 import { ConfirmationPopup } from '../ConfirmationPopup';
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { getLocations } from '../../features/desk/api/locationApi';
-import { selectLocations } from '../../features/desk/redux/locationSlice';
+import { useAppSelector } from '../../app/hooks';
+import {
+  selectLocations,
+  selectStatus,
+} from '../../features/desk/redux/locationSlice';
+import { HTTP_Status } from '../../features/desk/definitions/types';
+import { CircularProgress } from '@mui/material';
 
 interface Column {
   id: 'city';
@@ -25,45 +28,58 @@ const columns: readonly Column[] = [{ id: 'city', label: 'City' }];
 
 export function LocationList() {
   const locations = useAppSelector(selectLocations);
+  const locationStatus = useAppSelector(selectStatus);
+
   return (
     <Paper css={tableWrapperLocation}>
-      <TableContainer>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  css={tableHeader}
-                  key={column.id}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-              <TableCell />
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {locations.map((location) => {
-              return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={location.id}>
-                  {columns.map((column) => {
-                    return (
-                      <TableCell key={column.id}>
-                        {location[column.id]}
-                      </TableCell>
-                    );
-                  })}
-                  <TableCell>
-                    <ConfirmationPopup resource={location} />
-                  </TableCell>
+      {locationStatus === HTTP_Status.PENDING ? (
+        <CircularProgress />
+      ) : (
+        <>
+          <TableContainer>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      css={tableHeader}
+                      key={column.id}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                  <TableCell />
                 </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <LocationForm />
+              </TableHead>
+              <TableBody>
+                {locations.map((location) => {
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={location.id}
+                    >
+                      {columns.map((column) => {
+                        return (
+                          <TableCell key={column.id}>
+                            {location[column.id]}
+                          </TableCell>
+                        );
+                      })}
+                      <TableCell>
+                        <ConfirmationPopup resource={location} />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <LocationForm />
+        </>
+      )}
     </Paper>
   );
 }

@@ -7,6 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
 import {
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
@@ -16,11 +17,13 @@ import {
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectLocations } from '../../features/desk/redux/locationSlice';
 import { postDesk } from '../../features/desk/api/deskApi';
+import { selectStatus } from '../../features/desk/redux/deskSlice';
+import { HTTP_Status } from '../../features/desk/definitions/types';
 
 export function AddDeskForm() {
   const [open, setOpen] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
   const [selectedLocationId, setSelectedLocationId] = useState<string>('');
+  const dispatch = useAppDispatch();
   const locations = useAppSelector(selectLocations);
 
   const handleClickOpen = () => {

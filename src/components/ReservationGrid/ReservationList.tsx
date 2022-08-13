@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,11 +7,16 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { tableWrapper, tableHeader, searchBar } from '../Desks.module.style';
+import { tableWrapper, tableHeader } from '../Desks.module.style';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { getReservations } from '../../features/desk/api/reservationApi';
-import { selectReservations } from '../../features/desk/redux/reservationSlice';
+import {
+  selectReservations,
+  selectStatus,
+} from '../../features/desk/redux/reservationSlice';
+import { HTTP_Status } from '../../features/desk/definitions/types';
+import { CircularProgress } from '@mui/material';
 
 interface Column {
   id: 'deskId' | 'name' | 'startDate' | 'endDate';
@@ -46,6 +50,7 @@ export function ReservationList() {
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const dispatch = useAppDispatch();
   const reservations = useAppSelector(selectReservations);
+  const reservationStatus = useAppSelector(selectStatus);
 
   const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
@@ -63,58 +68,65 @@ export function ReservationList() {
 
   return (
     <Paper css={tableWrapper}>
-      <TableContainer>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  css={tableHeader}
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-              <TableCell />
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {reservations
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((reservation) => {
-                return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={reservation.id}
-                  >
-                    {columns.map((column) => {
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.id.toLowerCase().includes('date')
-                            ? reservation[column.id].substring(0, 10)
-                            : reservation[column.id]}
-                        </TableCell>
-                      );
-                    })}
-                    <TableCell />
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 15, 30]}
-        count={reservations.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      {reservationStatus === HTTP_Status.PENDING ? (
+        <CircularProgress />
+      ) : (
+        <>
+          {' '}
+          <TableContainer>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      css={tableHeader}
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                  <TableCell />
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {reservations
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((reservation) => {
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={reservation.id}
+                      >
+                        {columns.map((column) => {
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              {column.id.toLowerCase().includes('date')
+                                ? reservation[column.id].substring(0, 10)
+                                : reservation[column.id]}
+                            </TableCell>
+                          );
+                        })}
+                        <TableCell />
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 15, 30]}
+            count={reservations.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </>
+      )}
     </Paper>
   );
 }
