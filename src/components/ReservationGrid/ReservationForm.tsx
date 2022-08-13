@@ -41,6 +41,7 @@ export function ReservationForm({ desk }: Props) {
       id: '',
     };
     dispatch(postReservation(reservation));
+    setOpen(false);
   };
 
   return (

@@ -7,7 +7,7 @@ const AdminPanel = () => {
     <section>
       <LocationList />
       <DeskList />
-      <ReservationList />
+      <ReservationList variant="admin" />
     </section>
   );
 };

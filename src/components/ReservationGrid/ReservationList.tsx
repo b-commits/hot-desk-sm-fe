@@ -19,7 +19,7 @@ import { HTTP_Status } from '../../features/desk/definitions/types';
 import { CircularProgress } from '@mui/material';
 
 interface Column {
-  id: 'deskId' | 'name' | 'startDate' | 'endDate';
+  id: 'id' | 'name' | 'startDate' | 'endDate';
   label: string;
   minWidth?: number;
   align?: 'right';
@@ -27,7 +27,7 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: 'deskId', label: 'Desk ID', minWidth: 170 },
+  { id: 'id', label: 'Reservation ID', minWidth: 170 },
   { id: 'name', label: 'Name', minWidth: 100 },
   {
     id: 'startDate',
@@ -45,7 +45,11 @@ const columns: readonly Column[] = [
   },
 ];
 
-export function ReservationList() {
+interface Props {
+  variant: 'user' | 'admin';
+}
+
+export function ReservationList({ variant }: Props) {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const dispatch = useAppDispatch();
@@ -72,21 +76,22 @@ export function ReservationList() {
         <CircularProgress />
       ) : (
         <>
-          {' '}
           <TableContainer>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      css={tableHeader}
-                      key={column.id}
-                      align={column.align}
-                      style={{ minWidth: column.minWidth }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
+                  {columns.map((column) =>
+                    column.id === 'name' && variant === 'user' ? null : (
+                      <TableCell
+                        css={tableHeader}
+                        key={column.id}
+                        align={column.align}
+                        style={{ minWidth: column.minWidth }}
+                      >
+                        {column.label}
+                      </TableCell>
+                    )
+                  )}
                   <TableCell />
                 </TableRow>
               </TableHead>
@@ -102,6 +107,9 @@ export function ReservationList() {
                         key={reservation.id}
                       >
                         {columns.map((column) => {
+                          if (column.id === 'name' && variant === 'user')
+                            return null;
+
                           return (
                             <TableCell key={column.id} align={column.align}>
                               {column.id.toLowerCase().includes('date')
@@ -119,6 +127,7 @@ export function ReservationList() {
           </TableContainer>
           <TablePagination
             rowsPerPageOptions={[10, 15, 30]}
+            component="div"
             count={reservations.length}
             rowsPerPage={rowsPerPage}
             page={page}

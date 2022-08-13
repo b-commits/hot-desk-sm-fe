@@ -5,7 +5,7 @@ const ClientPanel = () => {
   return (
     <section>
       <DeskList reservationVariant />
-      <ReservationList />
+      <ReservationList variant="user" />
     </section>
   );
 };

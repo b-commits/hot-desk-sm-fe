@@ -41,6 +41,13 @@ export const postReservation = createAsyncThunk(
         'Content-Type': 'application/json',
       },
     });
+
+    if (response.status === 400) {
+      alert(
+        "This reservation could not be made. It's either too long, or the dates are incorrect (dateStart > dateEnd)"
+      );
+    }
+
     return response.json();
   }
 );
