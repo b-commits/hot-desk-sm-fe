@@ -1,5 +1,5 @@
 # hot-desk-sm-fe
-Please note that the initial loadtimes are highter; the back-end is hosted on Azure's free-tier VPS.
+**Please note that the initial loadtimes are highter; the back-end is hosted on Azure's free-tier VPS.**
 
 # Specs
 
