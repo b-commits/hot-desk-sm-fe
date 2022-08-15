@@ -17,6 +17,7 @@ import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { getDesks } from '../../api/deskApi';
 import {
   selectDeskIdsByLocationName,
+  selectErrors,
   selectStatus,
 } from '../../redux/deskSlice';
 import { AddDeskForm } from './DeskForm';
@@ -24,6 +25,8 @@ import DeskTableCell from './DeskTableCell';
 import { ReservationForm } from '../ReservationGrid/ReservationForm';
 import { CircularProgress, TextField } from '@mui/material';
 import { HTTP_Status } from '../../definitions/types';
+import { isEmpty } from 'lodash';
+import { ErrorPopup } from '../../../../shared/ErrorPopup';
 
 interface Props {
   reservationVariant?: boolean;
@@ -47,6 +50,7 @@ export function DeskList({ reservationVariant }: Props) {
   const [searchTerm, setSearchTerm] = useState<string>();
   const filteredDesks = useAppSelector(selectDeskIdsByLocationName(searchTerm));
   const desksStatus = useAppSelector(selectStatus);
+  const error = useAppSelector(selectErrors);
 
   useEffect(() => {
     dispatch(getDesks());
@@ -58,7 +62,6 @@ export function DeskList({ reservationVariant }: Props) {
         <CircularProgress />
       ) : (
         <>
-          {' '}
           <TextField
             id="searchByCity"
             label="Search desk by a city..."
@@ -116,6 +119,7 @@ export function DeskList({ reservationVariant }: Props) {
           {!reservationVariant && <AddDeskForm />}
         </>
       )}
+      {!isEmpty(error?.deskError) && <ErrorPopup errorMsg={error?.deskError} />}
     </Paper>
   );
 }

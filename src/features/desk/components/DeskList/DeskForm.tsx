@@ -14,16 +14,13 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
-import { selectErrors, selectLocations } from '../../redux/locationSlice';
+import { selectLocations } from '../../redux/locationSlice';
 import { postDesk } from '../../api/deskApi';
-import { isEmpty } from 'lodash';
-import { ErrorPopup } from '../../../../shared/ErrorPopup';
 
 export function AddDeskForm() {
   const [open, setOpen] = useState<boolean>(false);
   const [selectedLocationId, setSelectedLocationId] = useState<string>('');
   const dispatch = useAppDispatch();
-  const error = useAppSelector(selectErrors);
   const locations = useAppSelector(selectLocations);
 
   const handleClickOpen = () => {
@@ -78,7 +75,6 @@ export function AddDeskForm() {
           </Button>
         </DialogActions>
       </Dialog>
-      {!isEmpty(error?.deskError) && <ErrorPopup errorMsg={error?.deskError} />}
     </>
   );
 }
