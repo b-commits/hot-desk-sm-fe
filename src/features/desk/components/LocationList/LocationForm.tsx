@@ -7,12 +7,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
-import { useAppDispatch } from '../../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { postLocation } from '../../api/locationApi';
+import { ErrorPopup } from '../../../../shared/ErrorPopup';
+import { selectErrors } from '../../redux/locationSlice';
+import { isEmpty } from 'lodash';
 
 export function LocationForm() {
   const [open, setOpen] = useState<boolean>(false);
   const [city, setCityName] = useState<string>('');
+  const error = useAppSelector(selectErrors);
   const dispatch = useAppDispatch();
 
   const handleClickOpen = () => {
@@ -58,6 +62,9 @@ export function LocationForm() {
           </Button>
         </DialogActions>
       </Dialog>
+      {!isEmpty(error?.locationError) && (
+        <ErrorPopup errorMsg={error?.locationError} />
+      )}
     </>
   );
 }

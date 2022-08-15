@@ -33,15 +33,19 @@ export function ReservationForm({ desk }: Props) {
   };
 
   const saveReservation = () => {
-    const reservation: Reservation = {
-      deskId: desk.id,
-      endDate: dateEnd!.toJSON(),
-      startDate: dateStart!.toJSON(),
-      name: name!,
-      id: '',
-    };
-    dispatch(postReservation(reservation));
-    setOpen(false);
+    if (!dateStart || !dateEnd || !name) {
+      alert('Please fill out all the fields.');
+    } else {
+      const reservation: Reservation = {
+        deskId: desk.id,
+        endDate: dateEnd!.toJSON(),
+        startDate: dateStart!.toJSON(),
+        name: name!,
+        id: '',
+      };
+      dispatch(postReservation(reservation));
+      setOpen(false);
+    }
   };
 
   return (
@@ -50,61 +54,62 @@ export function ReservationForm({ desk }: Props) {
         Make a Reservation
       </Button>
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>Make a reservation</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            In order to make a reservation, please fill out the form and hit
-            'Save'.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Name"
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(event) => {
-              setName(event.target.value);
-            }}
-            required
-          />
-          <FormControl fullWidth css={{ marginTop: '15px' }}></FormControl>
-          <LocalizationProvider css={datePicker} dateAdapter={AdapterMoment}>
-            <div css={datePicker}>
-              <DatePicker
-                label="Reservation Start Date"
-                value={dateStart}
-                onChange={(newValue) => {
-                  setDateStart(newValue);
-                }}
-                renderInput={(params) => (
-                  <TextField data-testid="picker" fullWidth {...params} />
-                )}
-              />
-            </div>
-          </LocalizationProvider>
-          <LocalizationProvider css={datePicker} dateAdapter={AdapterMoment}>
-            <div css={datePicker}>
-              <DatePicker
-                label="Reservation End Date"
-                value={dateEnd}
-                onChange={(newValue) => {
-                  setDateEnd(newValue);
-                }}
-                renderInput={(params) => (
-                  <TextField data-testid="picker" fullWidth {...params} />
-                )}
-              />
-            </div>
-          </LocalizationProvider>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)}>Cancel</Button>
-          <Button type="submit" onClick={() => saveReservation()}>
-            Save
-          </Button>
-        </DialogActions>
+        <form>
+          <DialogTitle>Make a reservation</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              In order to make a reservation, please fill out the form and hit
+              'Save'.
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Name"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(event) => {
+                setName(event.target.value);
+              }}
+            />
+            <LocalizationProvider css={datePicker} dateAdapter={AdapterMoment}>
+              <div css={datePicker}>
+                <DatePicker
+                  label="Reservation Start Date"
+                  value={dateStart}
+                  onChange={(newValue) => {
+                    setDateStart(newValue);
+                  }}
+                  renderInput={(params) => (
+                    <TextField data-testid="picker" fullWidth {...params} />
+                  )}
+                />
+              </div>
+            </LocalizationProvider>
+
+            <LocalizationProvider css={datePicker} dateAdapter={AdapterMoment}>
+              <div css={datePicker}>
+                <DatePicker
+                  label="Reservation End Date"
+                  value={dateEnd}
+                  onChange={(newValue) => {
+                    setDateEnd(newValue);
+                  }}
+                  renderInput={(params) => (
+                    <TextField data-testid="picker" fullWidth {...params} />
+                  )}
+                />
+              </div>
+            </LocalizationProvider>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpen(false)}>Cancel</Button>
+            <Button type="submit" onClick={saveReservation}>
+              Save
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </>
   );

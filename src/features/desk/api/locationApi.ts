@@ -16,8 +16,7 @@ export const deleteLocation = createAsyncThunk(
     });
 
     if (response.status === 400) {
-      alert('This location has some desks assigned. Unable to delete it.');
-      throw new Error('Bad Request');
+      throw new Error('Cannot delete. The location has some desks assigned.');
     }
 
     return location;

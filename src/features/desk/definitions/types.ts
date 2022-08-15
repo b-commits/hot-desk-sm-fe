@@ -29,3 +29,9 @@ export enum HTTP_Status {
   ERROR = 'Error',
   IDLE = 'Idle',
 }
+
+export interface API_Error {
+  locationError?: string;
+  reservationError?: string;
+  deskError?: string;
+}

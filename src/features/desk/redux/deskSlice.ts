@@ -1,25 +1,29 @@
 import { ActionReducerMapBuilder, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../../app/store';
 import { deleteDesk, getDesks, postDesk } from '../api/deskApi';
-import { Desk, HTTP_Status } from '../definitions/types';
+import { API_Error, Desk, HTTP_Status } from '../definitions/types';
 
 export const BASE_SLICE_NAME: string = 'desk';
 
 export interface DeskState {
   desks: Desk[];
   status: HTTP_Status;
+  errorMsg?: API_Error;
 }
 
 const initialState: DeskState = {
   desks: [],
   status: HTTP_Status.IDLE,
+  errorMsg: {},
 };
 
 export const deskSlice = createSlice({
   name: BASE_SLICE_NAME,
   initialState,
   reducers: {
-    addDesk: () => {},
+    clearError: (state) => {
+      state.errorMsg!.deskError = '';
+    },
   },
   extraReducers: (builder: ActionReducerMapBuilder<DeskState>) => {
     builder
@@ -33,7 +37,8 @@ export const deskSlice = createSlice({
       .addCase(deleteDesk.pending, (state) => {
         state.status = HTTP_Status.PENDING;
       })
-      .addCase(deleteDesk.rejected, (state) => {
+      .addCase(deleteDesk.rejected, (state, action) => {
+        state.errorMsg!.deskError = action.error.message;
         state.status = HTTP_Status.IDLE;
       })
       .addCase(deleteDesk.fulfilled, (state, action) => {
@@ -52,9 +57,10 @@ export const deskSlice = createSlice({
   },
 });
 
-export const { addDesk } = deskSlice.actions;
+export const { clearError } = deskSlice.actions;
 
 export const selectDesks = (state: RootState) => state.desk.desks;
+export const selectErrors = (state: RootState) => state.desk.errorMsg;
 export const selectStatus = (state: RootState) => state.desk.status;
 export const selectDeskIdsByLocationName =
   (locationName: string | undefined) => (state: RootState) => {

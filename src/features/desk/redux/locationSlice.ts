@@ -1,25 +1,29 @@
 import { ActionReducerMapBuilder, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../../app/store';
 import { deleteLocation, getLocations, postLocation } from '../api/locationApi';
-import { HTTP_Status, Location } from '../definitions/types';
+import { API_Error, HTTP_Status, Location } from '../definitions/types';
 
 export const BASE_SLICE_NAME: string = 'location';
 
 export interface LocationState {
   locations: Location[];
   status: HTTP_Status;
+  errorMsg?: API_Error;
 }
 
 const initialState: LocationState = {
   locations: [],
   status: HTTP_Status.IDLE,
+  errorMsg: {},
 };
 
 export const locationSlice = createSlice({
   name: BASE_SLICE_NAME,
   initialState,
   reducers: {
-    addLocation: () => {},
+    clearError: (state) => {
+      state.errorMsg!.locationError = '';
+    },
   },
   extraReducers: (builder: ActionReducerMapBuilder<LocationState>) => {
     builder
@@ -33,7 +37,8 @@ export const locationSlice = createSlice({
       .addCase(deleteLocation.pending, (state) => {
         state.status = HTTP_Status.PENDING;
       })
-      .addCase(deleteLocation.rejected, (state) => {
+      .addCase(deleteLocation.rejected, (state, action) => {
+        state.errorMsg!.locationError = action.error.message;
         state.status = HTTP_Status.IDLE;
       })
       .addCase(deleteLocation.fulfilled, (state, action) => {
@@ -52,9 +57,10 @@ export const locationSlice = createSlice({
   },
 });
 
-export const { addLocation } = locationSlice.actions;
+export const { clearError } = locationSlice.actions;
 
 export const selectLocations = (state: RootState) => state.location.locations;
+export const selectErrors = (state: RootState) => state.location.errorMsg;
 export const selectStatus = (state: RootState) => state.location.status;
 export const selectLocationCityById =
   (locationId: string) => (state: RootState) => {

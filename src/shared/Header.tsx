@@ -4,43 +4,43 @@ import { Link } from 'react-router-dom';
 
 export function Header() {
   return (
-    <AppBar>
+    <AppBar sx={{ mb: '10rem' }}>
       <Toolbar>
-        <Link to="/" css={{ textDecoration: 'none', color: 'white' }}>
+        <Link
+          to="/"
+          css={{ textDecoration: 'none', color: 'white', marginLeft: '1rem' }}
+        >
           <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
           >
-            <Typography variant="h6" noWrap component="div">
+            <Typography fontSize={'1.2rem'} noWrap component="div">
               Book a Desk
             </Typography>
           </IconButton>
         </Link>
-        <Link to="/admin" css={{ textDecoration: 'none', color: 'white' }}>
+        <Link
+          to="/admin"
+          css={{ textDecoration: 'none', color: 'white', marginLeft: '1rem' }}
+        >
           <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ ml: 4 }}
           >
-            <Typography variant="h6" noWrap component="div">
+            <Typography fontSize={'1.2rem'} noWrap component="div">
               Admin Panel
             </Typography>
           </IconButton>
         </Link>
         <a
           href="https://hotdesk-api.azurewebsites.net/swagger/index.html"
-          css={{ textDecoration: 'none', color: 'white' }}
+          css={{ textDecoration: 'none', color: 'white', marginLeft: '1rem' }}
         >
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            css={{ marginLeft: '80px ' }}
-          >
+          <Typography fontSize={'1.2rem'} noWrap component="div">
             API docs
           </Typography>
         </a>
