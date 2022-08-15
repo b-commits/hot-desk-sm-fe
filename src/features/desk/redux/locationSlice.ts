@@ -22,7 +22,7 @@ export const locationSlice = createSlice({
   initialState,
   reducers: {
     clearError: (state) => {
-      state.errorMsg!.locationError = '';
+      state.errorMsg! = {};
     },
   },
   extraReducers: (builder: ActionReducerMapBuilder<LocationState>) => {

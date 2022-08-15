@@ -22,7 +22,7 @@ export const deskSlice = createSlice({
   initialState,
   reducers: {
     clearError: (state) => {
-      state.errorMsg!.deskError = '';
+      state.errorMsg! = {};
     },
   },
   extraReducers: (builder: ActionReducerMapBuilder<DeskState>) => {

@@ -11,7 +11,6 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { datePicker } from '../Desks.module.style';
-import { FormControl } from '@mui/material';
 import { useAppDispatch } from '../../../../app/hooks';
 import { Desk, Reservation } from '../../definitions/types';
 import { postReservation } from '../../api/reservationApi';
@@ -28,7 +27,7 @@ export function ReservationForm({ desk }: Props) {
   const [dateStart, setDateStart] = useState<Date | null>(null);
   const [dateEnd, setDateEnd] = useState<Date | null>(null);
 
-  const handleClickOpen = () => {
+  const handleOpen = () => {
     setOpen(true);
   };
 
@@ -50,7 +49,7 @@ export function ReservationForm({ desk }: Props) {
 
   return (
     <>
-      <Button onClick={handleClickOpen} variant="outlined">
+      <Button onClick={handleOpen} variant="outlined">
         Make a Reservation
       </Button>
       <Dialog open={open} onClose={() => setOpen(false)}>

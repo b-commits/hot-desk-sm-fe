@@ -9,7 +9,8 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { useAppDispatch } from '../app/hooks';
-import { clearError } from '../features/desk/redux/locationSlice';
+import { clearError as clearLocation } from '../features/desk/redux/locationSlice';
+import { clearError as clearDesk } from '../features/desk/redux/deskSlice';
 
 interface Props {
   errorMsg: string | undefined;
@@ -21,7 +22,8 @@ export const ErrorPopup = ({ errorMsg }: Props) => {
 
   const handleClose: () => void = () => {
     setOpen(false);
-    dispatch(clearError());
+    dispatch(clearLocation());
+    dispatch(clearDesk());
   };
 
   return (
