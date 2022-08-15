@@ -1,5 +1,4 @@
 # hot-desk-sm-fe
-This is mostly done. Admittedly, though, the front-end was a bit rushed and the code could use a lot of refactoring.
 Please note that the initial loadtimes are highter; the back-end is hosted on Azure's free-tier VPS.
 
 # Specs
